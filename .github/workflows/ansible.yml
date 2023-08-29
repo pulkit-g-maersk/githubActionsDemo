@@ -11,7 +11,18 @@ jobs:
     services:
       ubuntussh:
         image: mailtopulkit/ubuntussh:root
-        
+
     steps:
     - name: Check out code
       uses: actions/checkout@v3
+    - name: Testing ssh action
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ubuntussh
+        username: root
+        password: coolpassword
+        port: 22
+        script: |
+            whoami
+            pwd
+            ls -al      
