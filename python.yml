@@ -1,0 +1,9 @@
+---
+- name: Python upgrade playbook
+  hosts: all
+  remote_user: root
+  tasks:
+  - name: Transfer the script
+    copy: src=python.sh dest=/ mode=0777
+  - name: Upgrade python
+    command: sh /python.sh
