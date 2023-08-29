@@ -15,15 +15,24 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v3
-
-    - name: Testing ssh action
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ubuntussh
-        username: root
-        password: coolpassword
-        port: 22
-        script: |
-            whoami
-            pwd
-            ls -al
+    - name: Install ansible
+      run: |
+        apt update
+        apt install -y software-properties-common
+        add-apt-repository --yes --update ppa:ansible/ansible
+        apt install -y ansible
+    - name: Ansible check
+      run: |
+        ansible --version
+    - name: Ansible ping module install
+      run: |
+        ansible-galaxy collection install ansible.netcommon
+    - name: Ansible check
+      run: |
+        export ANSIBLE_HOST_KEY_CHECKING=False && ansible -i hosts servers -m ping
+    - name: Apt upgrade
+      run: |
+        ansible-playbook -i hosts apt.yml
+    - name: Python upgrade
+      run: |
+        ansible-playbook -i hosts python.yml
