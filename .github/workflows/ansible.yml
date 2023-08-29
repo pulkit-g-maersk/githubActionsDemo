@@ -8,7 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     container: ubuntu:latest
     
-
+    services:
+      ubuntussh:
+        image: mailtopulkit/ubuntussh:root
+        
     steps:
     - name: Check out code
       uses: actions/checkout@v3
